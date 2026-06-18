@@ -68,7 +68,7 @@ novels/
 
 `novels/` 默认被 `.gitignore` 忽略，避免把正文草稿和测试作品误提交到技能包仓库。
 
-## 不需要 Python 初始化
+## 使用方式
 
 clone 仓库后，可以直接让 AI 读取：
 
@@ -76,9 +76,9 @@ clone 仓库后，可以直接让 AI 读取：
 AI_START_HERE.md
 ```
 
-AI 会根据入口文件直接创建 `novels/<项目名>/` 以及所有 Markdown 控制文件和目录，不需要运行 Python 脚本。
+AI 会根据入口文件创建 `novels/<项目名>/` 以及所有 Markdown 控制文件和目录。
 
-项目验收也不依赖脚本，而是按 `AI_START_HERE.md` 和 `SKILL.md` 里的清单检查。
+项目验收按 `AI_START_HERE.md` 和 `SKILL.md` 里的清单检查。
 
 ## 这套流程会强制维护什么
 

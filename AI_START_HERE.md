@@ -64,7 +64,7 @@ Create a project under this workspace, usually:
 
 `novels/<title-or-slug>/`
 
-Create the directory and all required Markdown files directly. Do not require Python, shell scripts, or external tooling. If tools are available, use normal file operations. If tools are not available, provide the exact file tree and file contents for the user or host AI to create.
+Create the directory and all required Markdown files from the project template. If file tools are available, create them in place. If file tools are not available, provide the exact file tree and file contents for the user or host AI to create.
 
 Do not create novel projects in the user's home directory.
 
