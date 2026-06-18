@@ -1,0 +1,13 @@
+# Generated manuscripts and local project outputs
+novels/
+tests/
+
+# Local OS/editor/cache files
+.DS_Store
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Temporary validation sandboxes
+tmp-*/
+*.tmp
