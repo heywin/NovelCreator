@@ -64,11 +64,7 @@ Create a project under this workspace, usually:
 
 `novels/<title-or-slug>/`
 
-Run:
-
-```bash
-python3 skills/longform-fiction-studio/scripts/init_project.py novels/<title-or-slug>
-```
+Create the directory and all required Markdown files directly. Do not require Python, shell scripts, or external tooling. If tools are available, use normal file operations. If tools are not available, provide the exact file tree and file contents for the user or host AI to create.
 
 Do not create novel projects in the user's home directory.
 
@@ -124,19 +120,13 @@ Draft chapter by chapter. For each chapter:
 
 After all planned chapters are complete:
 
-- run the project validator
+- run the manual acceptance checklist in this file
 - verify chapter count
 - verify chapter lengths or total length against the user's requirement
 - check continuity, timeline, character knowledge, relationship changes, line heat, payoff fairness, and style consistency
 - write or update `QUALITY_REPORT.md`
 - clean temporary files and caches
 - report final paths, validation result, length statistics, and quality verdict
-
-Run:
-
-```bash
-python3 skills/longform-fiction-studio/scripts/validate_project.py novels/<title-or-slug>
-```
 
 ## Path B: Continue An Existing Novel Project
 
@@ -183,7 +173,7 @@ If the user says to continue or start, keep working chapter by chapter until the
 
 ### 5. Final Delivery
 
-When the remaining work is complete, run validation and produce a final quality report the same way as a new project.
+When the remaining work is complete, run the manual acceptance checklist and produce a final quality report the same way as a new project.
 
 ## Required Project Files
 
@@ -214,7 +204,7 @@ A project is not complete just because chapters exist. It is complete only when:
 - evidence status is clear where facts are disputed
 - batch literary revision has been run
 - final quality report exists
-- validator passes
+- the manual acceptance checklist in this file passes
 
 ## User-Facing Shortcut
 

@@ -71,7 +71,7 @@ Core rule: do not draft from hidden memory.
 - Update `03-timeline.md` if time, location, knowledge, injury, travel, or public events changed.
 - Update `02-relationship-map.md` if relationship pressure or status changed.
 - Update `09-literary-revision.md` after every 3-6 chapters.
-- Run `python3 skills/longform-fiction-studio/scripts/validate_project.py <project-root>` from the repository root when available.
+- Run the manual acceptance checklist in `AI_START_HERE.md`.
 
 ## Completion And Delivery
 

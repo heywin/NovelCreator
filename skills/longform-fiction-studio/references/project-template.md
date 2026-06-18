@@ -21,8 +21,6 @@ project-root/
 
 ## File Content Hints
 
-### 00-project-overview.md
-
 ### PROJECT_ENTRY.md
 
 - first-read handoff instructions

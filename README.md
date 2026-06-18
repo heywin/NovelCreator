@@ -58,7 +58,6 @@ skills/
   longform-fiction-studio/
     SKILL.md
     references/
-    scripts/
 ```
 
 生成的小说项目默认放在：
@@ -69,19 +68,17 @@ novels/
 
 `novels/` 默认被 `.gitignore` 忽略，避免把正文草稿和测试作品误提交到技能包仓库。
 
-## 常用命令
+## 不需要 Python 初始化
 
-创建新小说项目：
+clone 仓库后，可以直接让 AI 读取：
 
-```bash
-python3 skills/longform-fiction-studio/scripts/init_project.py novels/my-novel
+```text
+AI_START_HERE.md
 ```
 
-校验小说项目结构：
+AI 会根据入口文件直接创建 `novels/<项目名>/` 以及所有 Markdown 控制文件和目录，不需要运行 Python 脚本。
 
-```bash
-python3 skills/longform-fiction-studio/scripts/validate_project.py novels/my-novel
-```
+项目验收也不依赖脚本，而是按 `AI_START_HERE.md` 和 `SKILL.md` 里的清单检查。
 
 ## 这套流程会强制维护什么
 
@@ -112,7 +109,7 @@ python3 skills/longform-fiction-studio/scripts/validate_project.py novels/my-nov
 - 支线没有无计划冷掉
 - 每 3-6 章做一次文学修订检查
 - 完成最终质量报告
-- `validate_project.py` 校验通过
+- 手动验收清单通过
 
 ## 重要规则
 

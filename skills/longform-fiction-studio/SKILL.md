@@ -165,7 +165,6 @@ Do not carry the whole novel into each prompt.
 - `references/project-entry-template.md`: handoff file layout for one project
 - `references/workspace-entry-template.md`: workspace-level startup rules for new and existing projects
 
-## Helpful Scripts
+## No Script Requirement
 
-- `scripts/init_project.py <project-root>`: create the standard project files and folders.
-- `scripts/validate_project.py <project-root>`: verify required files, evidence-status ledger, active line heat, and non-empty literary revision after a batch.
+This skill package does not require Python or any setup script. A new AI should create the project folders and Markdown control files directly from `AI_START_HERE.md` and `references/project-template.md`, then validate the work with the acceptance checklist in `AI_START_HERE.md` and the validation questions in `references/methodology.md`.
