@@ -87,6 +87,8 @@ Fill these files before writing chapters:
 
 The control pack must make the story creatable with low context. Do not rely on hidden planning that is not written into files.
 
+Every chapter card must include a `Narrative Boundary` section that keeps planning language out of the manuscript. The chapter body in `chapters/` must only use in-world fiction language.
+
 ### 4. Present The Story Design To The User
 
 Before drafting the manuscript, summarize:
@@ -110,11 +112,12 @@ Draft chapter by chapter. For each chapter:
 2. Read the project pack needed for the current chapter.
 3. Read the current `chapter-cards/NN-card.md`.
 4. Draft only the current chapter into `chapters/NN.md`.
-5. Update `06-continuity-ledger.md`.
-6. Update `08-active-state.md`.
-7. Update `03-timeline.md` and `02-relationship-map.md` if facts, time, knowledge, or relationships changed.
-8. After every 3-6 chapters, update `09-literary-revision.md`.
-9. Continue until the planned manuscript is complete, unless the user asks to pause.
+5. Check the draft for narrative-boundary violations before accepting it.
+6. Update `06-continuity-ledger.md`.
+7. Update `08-active-state.md`.
+8. Update `03-timeline.md` and `02-relationship-map.md` if facts, time, knowledge, or relationships changed.
+9. After every 3-6 chapters, update `09-literary-revision.md`.
+10. Continue until the planned manuscript is complete, unless the user asks to pause.
 
 ### 6. Final QA And Delivery
 
@@ -124,6 +127,7 @@ After all planned chapters are complete:
 - verify chapter count
 - verify chapter lengths or total length against the user's requirement
 - check continuity, timeline, character knowledge, relationship changes, line heat, payoff fairness, and style consistency
+- check narrative boundary: no author notes, reader address, control-card terms, evidence labels, line-heat labels, or explanation of writing intent inside `chapters/`
 - write or update `QUALITY_REPORT.md`
 - clean temporary files and caches
 - report final paths, validation result, length statistics, and quality verdict
@@ -203,7 +207,9 @@ A project is not complete just because chapters exist. It is complete only when:
 - line heat has no unplanned cold lines
 - evidence status is clear where facts are disputed
 - batch literary revision has been run
+- literary revision includes narrative-boundary notes
 - final quality report exists
+- narrative boundary check passes for all chapter files
 - the manual acceptance checklist in this file passes
 
 ## User-Facing Shortcut

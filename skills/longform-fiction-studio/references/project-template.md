@@ -86,6 +86,21 @@ project-root/
 - key beat
 - exit condition
 
+### chapter-cards/NN-card.md
+
+- purpose
+- entry state
+- required beats
+- character constraints
+- relationship pressure
+- timeline and setting constraints
+- plot line movement
+- foreshadowing and payoff
+- narrative boundary
+- forbidden drift
+- exit state
+- post-draft update targets
+
 ### 06-continuity-ledger.md
 
 - fact
@@ -102,6 +117,7 @@ project-root/
 - dialogue behavior
 - banned habits
 - lexical limits
+- narrative boundary rules for manuscript language
 
 ### 08-active-state.md
 
@@ -120,5 +136,6 @@ project-root/
 - interior arc notes
 - texture and world notes
 - rhythm and length notes
+- narrative boundary notes
 - required revisions before next batch
 - deferred revisions

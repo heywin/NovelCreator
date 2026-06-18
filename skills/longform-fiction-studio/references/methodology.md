@@ -153,6 +153,7 @@ Pass only when the next chapter has:
 - continuity constraints
 - relationship pressure
 - line movement
+- narrative boundary
 - exit state
 
 ### Gate 5: Post-Chapter Update
@@ -167,6 +168,7 @@ Pass only when after drafting:
 - next chapter risks are noted
 - evidence status is updated for new or disputed facts
 - line heat is checked and cold side lines are given a return plan
+- the chapter manuscript has passed narrative-boundary review
 
 ### Gate 6: Batch Literary Revision
 
@@ -202,6 +204,18 @@ Use one card per chapter:
 
 ## Foreshadowing And Payoff
 
+## Narrative Boundary
+
+Forbidden in manuscript:
+
+- direct address to the reader
+- author notes or AI/process notes
+- chapter purpose, plot line, subplot, character arc, theme, structure, or foreshadowing labels
+- evidence labels such as `observed`, `claimed`, `inferred`, `confirmed`, or `contradicted`
+- control terms such as continuity ledger, line heat, chapter card, project file, draft task, or revision note
+
+Convert all control intent into in-world action, dialogue, object, silence, setting, perception, and consequence.
+
 ## Forbidden Drift
 
 ## Exit State
@@ -224,6 +238,17 @@ Ask these questions before accepting a chapter:
 - Did the prose solve a plot problem by author convenience?
 - Did a payoff happen without setup?
 - Did a setup appear without a planned return?
+
+## Narrative Boundary Validation
+
+Ask these questions before accepting any chapter manuscript:
+
+- Does the chapter stay inside the story world?
+- Does it avoid directly addressing the reader?
+- Does it avoid mentioning the author, AI, writing task, chapter purpose, plot line, subplot, structure, theme, foreshadowing, or character arc?
+- Does it avoid leaking control terms such as `observed`, `claimed`, `inferred`, `confirmed`, `contradicted`, line heat, continuity ledger, chapter card, or project file?
+- Are planning intentions translated into scene behavior instead of explanation?
+- If a risky word appears naturally in dialogue or narration, is it genuinely in-world rather than a control-file leak?
 
 ## Literary Revision Validation
 
@@ -345,6 +370,8 @@ Use `09-literary-revision.md` to keep batch-level quality control:
 
 ### Rhythm And Length Notes
 
+### Narrative Boundary Notes
+
 ### Required Revisions Before Next Batch
 
 ### Deferred Revisions
@@ -389,6 +416,12 @@ Repair: pick a dominant purpose and demote all other lines to pressure, echo, or
 Symptom: beautiful paragraphs hide missing causality.
 
 Repair: strip the chapter to beats, verify cause-effect, then restore style.
+
+### Fourth-Wall Leak
+
+Symptom: manuscript text mentions the reader, author, chapter purpose, plot line, theme, foreshadowing, character arc, evidence status, line heat, continuity ledger, chapter card, or project files.
+
+Repair: move the leaked control information back into control files. Rewrite the manuscript passage as in-world action, dialogue, object, silence, setting, perception, or consequence.
 
 ### Task-Completion Prose
 

@@ -56,6 +56,7 @@ Use these files as the canonical source of truth.
 - If a side line has gone cold without a return plan, stop and restore it in the roadmap before continuing.
 - After every 3-6 chapters, run a literary revision gate before drafting the next batch.
 - Do not treat logical coherence as finished literary quality. Check scene thickness, inner arc, anti-convenience, rhythm, and lived texture.
+- Keep narrative levels separate. Control files may use planning language, but chapter manuscripts must not mention the author, reader, chapter purpose, plot line, theme, evidence label, continuity ledger, line heat, chapter card, or future payoff.
 
 ## Workflow
 
@@ -98,6 +99,8 @@ For each chapter:
 - choose one dominant purpose for the chapter
 - keep all subplots subordinate to that purpose
 - draft only what the current state supports
+- translate control intent into scene, action, dialogue, object, silence, and perception
+- reject manuscript text that leaks control language or addresses the reader
 - update continuity and active state immediately after the chapter
 
 Do not draft a chapter from memory alone.
@@ -113,6 +116,7 @@ Check the draft against:
 - line balance
 - style consistency
 - chapter purpose
+- narrative boundary: no fourth-wall break, author note, reader address, control-file label, or writing-intent explanation inside the manuscript
 
 If any check fails, repair the project files first, then rewrite.
 

@@ -60,6 +60,7 @@ Core rule: do not draft from hidden memory.
 - If the project design has not been shown to the user yet, summarize the design and wait for feedback.
 - If the user has requested changes, apply them to the control pack before drafting.
 - Confirm the next chapter's dominant purpose.
+- Confirm the current chapter card has a `Narrative Boundary` section.
 - Check `08-active-state.md` line heat.
 - Check `06-continuity-ledger.md` for open loops and evidence status.
 - Read only the relevant recent chapters unless auditing continuity.
@@ -78,6 +79,7 @@ Core rule: do not draft from hidden memory.
 - Confirm all planned chapters exist.
 - Verify chapter lengths or total length.
 - Run continuity, timeline, character-knowledge, relationship, line-heat, payoff, and style checks.
+- Run narrative-boundary checks on `chapters/`: no author notes, reader address, writing-process language, control-card labels, evidence-status labels, line-heat labels, or project-file references inside manuscript text.
 - Write or update `QUALITY_REPORT.md`.
 - Report final paths and validation results to the user.
 ```

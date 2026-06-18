@@ -33,5 +33,5 @@ The workspace entry should explain the whole lifecycle:
 5. AI drafts chapter by chapter.
 6. AI updates continuity and active state after every chapter or batch.
 7. AI runs batch literary revision.
-8. AI validates and writes final quality report.
+8. AI validates continuity and narrative boundary, then writes final quality report.
 9. AI delivers the manuscript paths and quality verdict.
