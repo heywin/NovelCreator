@@ -1,37 +1,29 @@
 # Workspace Entry Template
 
-Use this file as the model for a workspace-level entry such as `AI_START_HERE.md`.
+Use this as the model for workspace `AI_START_HERE.md`. The workspace entry routes a new actor; each project's `PROJECT_ENTRY.md` supplies its current handoff.
 
-The workspace entry is different from `PROJECT_ENTRY.md`, but it should be the single startup file the user can point any AI to:
+## Startup Routing
 
-- `AI_START_HERE.md` teaches a new AI how to use the whole workspace and skill package.
-- `PROJECT_ENTRY.md` teaches a new AI how to continue one specific novel project.
+1. Read the workspace entry and local skill.
+2. Inspect the user-specified project path. An entry or existing controls/chapters identifies existing work.
+3. If the target is ambiguous, resolve the project before changing files.
+4. For a new project, create it under `novels/` from the project template.
+5. For legacy work, inspect actual prose and initialize missing workflow records non-destructively. Missing reviews remain pending; never import a prior completion claim as acceptance.
 
-Startup rule:
+## Required Sections
 
-1. Read `AI_START_HERE.md`.
-2. If a target path contains `PROJECT_ENTRY.md`, it is an existing project.
-3. If a target path lacks `PROJECT_ENTRY.md` but has novel control files, repair the project by adding `PROJECT_ENTRY.md`.
-4. If there is no target project, create a new project under `novels/`.
+- Project detection and preservation of existing work.
+- User scope, creative-review preferences, count contract and batch stop.
+- New-project creation and actual actor assignment.
+- Existing-project inspection, version reconciliation and migration.
+- Five-role chapter cycle and sole ownership of canonical merges.
+- Batch handoff versus whole-book release criteria.
+- Links to collaboration protocol, workflow schema, project template and revision protocol.
 
-Minimum sections:
+## Lifecycle To Explain
 
-- Core Principle
-- First Decision: New Project Or Existing Project
-- Path A: Start A New Novel Project
-- Path B: Continue An Existing Novel Project
-- Required Project Files
-- Acceptance Standard
-- User-Facing Shortcut
+The user provides creative direction and length constraints. The supervisor assigns tasks; the planner develops the whole-book direction and current batch's scene cards. Respect design-review requests, while proceeding on already-approved work without repeated permission.
 
-The workspace entry should explain the whole lifecycle:
+The writer drafts the assigned chapter. Mechanical checks measure body counts, repetition and hashes. The continuity and literary editors review that version; the writer repairs; editors recheck; the supervisor merges state and accepts. Dependent chapters follow accepted state. Parallel review is optional only where supported and authorized.
 
-1. User gives genre, topic, target length, and chapter count.
-2. AI builds the project control pack.
-3. AI presents the story design for user feedback.
-4. User says start.
-5. AI drafts chapter by chapter.
-6. AI updates continuity and active state after every chapter or batch.
-7. AI runs batch literary revision.
-8. AI validates continuity and narrative boundary, then writes final quality report.
-9. AI delivers the manuscript paths and quality verdict.
+At the planned batch boundary, update the handoff and report current progress. Full delivery additionally requires both editors' fresh whole-book reviews and release validation. Do not imply that a passing progress check, a long manuscript, or a finished first draft guarantees literary quality or final acceptance.

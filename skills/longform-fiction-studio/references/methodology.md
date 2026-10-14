@@ -13,84 +13,15 @@ For AI, the lesson is simple: do not ask one model pass to be novelist, showrunn
 
 ## Production Roles For AI
 
-### Story Lead
+Use five accountable roles from [collaboration-protocol.md](collaboration-protocol.md):
 
-Owns:
+- `supervisor`: decomposes tasks, reconciles conflicts, merges canonical state and accepts work.
+- `planner`: owns story invention, cast/relationship design, plotline load and scene plans.
+- `writer`: turns approved scene tasks into prose and proposes state changes.
+- `continuity_editor`: independently checks facts, timing, knowledge, motives and causality.
+- `literary_editor`: independently assesses cold-reader experience, scene craft and prose.
 
-- core promise
-- ending direction
-- theme as dramatic cost, not slogan
-- what the book is really about
-- which lines matter most when tradeoffs appear
-
-Outputs:
-
-- project overview
-- arc map
-- ending hypothesis
-- stage gates
-
-### Character Architect
-
-Owns:
-
-- desire, fear, shame, wound, contradiction
-- public mask and private behavior
-- speech and action patterns
-- arc pressure
-- relationship-specific behavior
-
-Outputs:
-
-- cast bible
-- relationship entries
-- contradiction list
-
-### Continuity Supervisor
-
-Owns:
-
-- names, ages, dates, travel time, geography
-- past events and causality
-- objects, letters, promises, injuries, public facts
-- open loops and callbacks
-- what a character knows at a specific time
-
-Outputs:
-
-- timeline
-- continuity ledger
-- active state updates
-
-### Plot Line Producer
-
-Owns:
-
-- main line and side-line load
-- line heat
-- return interval
-- convergence and collision
-- chapter purpose
-
-Outputs:
-
-- plot line register
-- chapter roadmap
-- chapter card
-
-### Drafting Writer
-
-Owns:
-
-- scene execution
-- prose, dialogue, image, rhythm
-- chapter hook and turn
-- emotional motion
-
-Outputs:
-
-- chapter manuscript
-- revision notes for continuity updates
+The author cannot self-approve. Independent roles use actual actor identities and version-bound evidence under [workflow-schema.md](workflow-schema.md). Keep separate review context; use parallel agents only within authorized delegation. Work in the user's chosen batches rather than assuming a full-book run.
 
 ## Stage Gates
 
@@ -155,11 +86,17 @@ Pass only when the next chapter has:
 - line movement
 - narrative boundary
 - exit state
+- scene-level goals, resistance, choices, consequences and count budgets
+- task owner, prerequisites and acceptance conditions recorded in the workflow
 
-### Gate 5: Post-Chapter Update
+### Gate 5: Post-Chapter Acceptance And State Merge
 
-Pass only when after drafting:
+Pass only when after drafting and repair:
 
+- objective counts and repetition checks pass
+- both editor roles have reviewed the current prose version with located evidence
+- critical/high findings have been repaired and independently rechecked
+- the supervisor has verified the work and merged proposed state changes
 - active state is updated
 - new facts are added to the ledger
 - timeline changes are recorded
@@ -172,7 +109,7 @@ Pass only when after drafting:
 
 ### Gate 6: Batch Literary Revision
 
-Run after every 3-6 chapters. Pass only when:
+Run at the agreed batch boundary, normally every three chapters. Pass only when:
 
 - the batch has been checked for scene thickness, not just plot delivery
 - character interior change is visible through behavior, not explanation alone
@@ -180,6 +117,17 @@ Run after every 3-6 chapters. Pass only when:
 - at least one quiet aftermath or ordinary-life beat exists where emotional pressure needs digestion
 - chapter rhythm and length support the intended reading experience
 - high-priority revision tasks are written into `09-literary-revision.md`
+
+### Gate 7: Release Candidate
+
+Run after the complete first draft and after every material revision. Pass only when:
+
+- the delivery contract fixes chapter count, chapter/total ranges, count mode, intended reader effect and required deliverables
+- both editor roles have fresh chapter reviews and final whole-book reviews tied to current prose
+- every critical/high finding is resolved with independent recheck evidence; none is deferred
+- repairs have been re-checked against timeline, knowledge state, relationship state, and open loops
+- the final quality report discloses both the validation result and remaining limitations
+- `scripts/validate_project.py <project-root> --stage release` passes record, structure, length and repetition checks
 
 ## Chapter Card Schema
 
@@ -193,6 +141,10 @@ Use one card per chapter:
 ## Entry State
 
 ## Required Beats
+
+Reference the task's scene IDs in `workflow.json`; explain the choice,
+consequence and acceptance condition here where needed. Scene goals, states,
+conflicts and budgets have one canonical record in the workflow.
 
 ## Character Constraints
 
@@ -252,7 +204,7 @@ Ask these questions before accepting any chapter manuscript:
 
 ## Literary Revision Validation
 
-Ask these questions every 3-6 chapters:
+Ask these questions at each agreed batch boundary:
 
 - Do the chapters feel like lived scenes or like a sequence of task completions?
 - Did clues arrive too conveniently or from too many helpers at once?
@@ -325,7 +277,9 @@ Load:
 
 Task:
 
-- update project files and list risks
+- writer proposes new facts and state changes
+- editors review the actual version and list evidenced risks
+- supervisor merges accepted changes and records the next task
 
 ## Evidence Status
 
@@ -378,6 +332,12 @@ Use `09-literary-revision.md` to keep batch-level quality control:
 ```
 
 Keep the file practical. Each issue should name the chapter or scene and state the repair.
+
+## Revision Ledger
+
+Use `workflow.json` as the operational source for tasks, issues, review versions and acceptance. Use the exact fields and status rules in [workflow-schema.md](workflow-schema.md). In `09-literary-revision.md`, summarize issue IDs, scene evidence, reader impact, repair decisions and recheck results without duplicating mutable statuses.
+
+The literary editor combines the cold-reader and line-edit lenses; the continuity editor owns factual/causal checks. Both must review current prose. Critical/high issues cannot be deferred past acceptance. Follow [revision-protocol.md](revision-protocol.md) for repair order, batch handoff and full-book release.
 
 ## Failure Modes
 
@@ -440,3 +400,15 @@ Repair: split the discoveries across chapters, make one clue partial, or add a c
 Symptom: the protagonist gathers facts but does not visibly change in desire, fear, shame, or behavior.
 
 Repair: add choices that force the protagonist to betray a prior self-protection strategy.
+
+### Length By Repetition
+
+Symptom: the chapter meets the raw count but repeats paragraphs, imagery or the same emotional conclusion without new action.
+
+Repair: inspect chapter and cross-chapter repetition, remove duplicated material, then identify missing resistance, decisions or consequences in the scene plan. Expand those scenes and remeasure under the fixed count mode. Do not treat decorative padding or punctuation as a length repair.
+
+### Stale Review
+
+Symptom: the prose changed but the old review still says pass, or a later chapter relies on facts removed by revision.
+
+Repair: compare manuscript hashes, request fresh review of the changed chapter, and map downstream dependencies for recheck before supervisor acceptance.

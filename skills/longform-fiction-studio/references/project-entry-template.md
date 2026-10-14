@@ -1,85 +1,76 @@
 # Project Entry Template
 
-Use `PROJECT_ENTRY.md` as the first file a new AI reads when taking over a novel project.
-
-It should be short, current, and operational. It must not become a second manuscript or a duplicate of every control file.
+Use `PROJECT_ENTRY.md` as the first file a new actor reads when taking over a novel. Keep it short and current. Link to workflow task IDs and actual files rather than duplicating mutable status tables.
 
 ```markdown
 # Project Entry
 
 ## Purpose
 
-This is the first file a new AI should read before continuing this novel project. Project files are the memory.
-
-If this project is not drafted yet, use this file to understand the design state and next required step. If the control pack is complete and the user says start, draft chapter by chapter until the planned stop point, updating state after each chapter or batch.
+Project files are durable memory. Continue the authorized task or batch after inspecting actual manuscript versions. Drafted, reviewed and accepted are different milestones.
 
 ## Required Read Order
 
-1. `PROJECT_ENTRY.md`
-2. `00-project-overview.md`
-3. `08-active-state.md`
-4. `06-continuity-ledger.md`
-5. `04-plot-lines.md`
-6. `05-chapter-roadmap.md`
-7. `01-cast-bible.md`
-8. `02-relationship-map.md`
-9. `03-timeline.md`
-10. `07-style-and-voice.md`
-11. Current or next `chapter-cards/NN-card.md`
-12. Recent completed chapters only, usually the last 1-3 chapter files.
+1. This entry and the repository's `AI_START_HERE.md`.
+2. `workflow.json`: contract, actor assignment, current tasks, issues and review versions.
+3. `00-project-overview.md`: creative intent and scope.
+4. `08-active-state.md` and `06-continuity-ledger.md`: accepted state and open loops.
+5. Relevant `04-plot-lines.md`, `05-chapter-roadmap.md` and `chapter-cards/NN-card.md`.
+6. Relevant cast, relationship, timeline and style entries.
+7. Actual recent chapters and review reports needed for the task.
 
-## Skill And Method
+Read the local skill and its collaboration protocol/schema before changing operational records. Do not load the full book for a small drafting task; whole-book review requires full-book coverage.
 
-From the repository root, read the local longform-fiction method if available:
+## Current Handoff
 
-- `AI_START_HERE.md`
-- `skills/longform-fiction-studio/SKILL.md`
-- `skills/longform-fiction-studio/references/methodology.md`
+- Authorized scope and batch stop:
+- User creative-review points and decisions already received:
+- Accepted chapters:
+- Drafted but not accepted chapters:
+- Current task ID and actual assigned actor:
+- Pending issue IDs and review reports:
+- Next ready task and prerequisites:
+- Last observed manuscript versions and check result:
 
-Core rule: do not draft from hidden memory.
-
-## Current Progress
-
-- Completed chapters:
-- Current manuscript state:
-- Next intended task:
-- Next chapter card:
-- User approval state:
-
-## Handoff Brief
+## Story State
 
 - Current story position:
 - Facts confirmed:
 - Facts claimed but not confirmed:
-- Characters who know the key information:
-- Active plot lines that must return:
+- Who knows the key information:
+- Plotlines due to return:
 - Forbidden drift:
 
-## Before Drafting Next Text
+## Before Work
 
-- If the project design has not been shown to the user yet, summarize the design and wait for feedback.
-- If the user has requested changes, apply them to the control pack before drafting.
-- Confirm the next chapter's dominant purpose.
-- Confirm the current chapter card has a `Narrative Boundary` section.
-- Check `08-active-state.md` line heat.
-- Check `06-continuity-ledger.md` for open loops and evidence status.
-- Read only the relevant recent chapters unless auditing continuity.
+- Compare actual files/hashes with workflow records; stale approvals require fresh review.
+- For legacy projects, inspect first and initialize missing workflow records without overwriting prose or inferring approval.
+- Honor user review points without re-asking settled questions.
+- Confirm task prerequisites, allowed write paths, scene goals and count budget.
+- Resolve outstanding repairs before drafting dependent chapters.
 
-## After Drafting
+## Role Handoff
 
-- Update `06-continuity-ledger.md`.
-- Update `08-active-state.md`.
-- Update `03-timeline.md` if time, location, knowledge, injury, travel, or public events changed.
-- Update `02-relationship-map.md` if relationship pressure or status changed.
-- Update `09-literary-revision.md` after every 3-6 chapters.
-- Run the manual acceptance checklist in `AI_START_HERE.md`.
+- Writer delivers assigned prose and proposed new facts/state changes.
+- Continuity and literary editors submit independent version-bound review evidence.
+- Writer repairs; editors verify the new version in context.
+- Supervisor alone merges workflow, continuity, active state, timeline and relationship updates, then accepts.
+- After editing earlier events, supervisor identifies affected later chapters for recheck.
 
-## Completion And Delivery
+## Batch Boundary
 
-- Confirm all planned chapters exist.
-- Verify chapter lengths or total length.
-- Run continuity, timeline, character-knowledge, relationship, line-heat, payoff, and style checks.
-- Run narrative-boundary checks on `chapters/`: no author notes, reader address, writing-process language, control-card labels, evidence-status labels, line-heat labels, or project-file references inside manuscript text.
-- Write or update `QUALITY_REPORT.md`.
-- Report final paths and validation results to the user.
+- Summarize literary findings in `09-literary-revision.md` using issue IDs.
+- Update this handoff with exact unfinished work and next task.
+- Run progress validation and report accepted versus pending work.
+- Stop at the authorized boundary; do not declare full-book completion.
+
+## Full Delivery
+
+When in scope, follow the skill's revision protocol. Require all chapters to meet the fixed count contract, pass repetition checks, have fresh two-role reviews and supervisor acceptance, and receive fresh final whole-book reviews from both editors. Resolve critical/high findings with independent rechecks. Write `QUALITY_REPORT.md`, run release validation and report limitations honestly.
+
+From the repository root:
+
+    python3 -B skills/longform-fiction-studio/scripts/inspect_project.py <project-root> --json
+    python3 -B skills/longform-fiction-studio/scripts/validate_project.py <project-root> --stage progress
+    python3 -B skills/longform-fiction-studio/scripts/validate_project.py <project-root> --stage release
 ```

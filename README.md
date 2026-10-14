@@ -1,128 +1,85 @@
 # Novel Creator
 
-Novel Creator 是一套可移植的 AI 长篇小说创作流程和技能包。
+Novel Creator 是一套可移植的 AI 长篇小说协作流程和技能包。主控编辑拆解任务，故事策划设计场景，正文作者写作，两类编辑独立审读，主控根据证据验收。可以每次完成一章或一个批次，再由其他会话接续。
 
-它的目标不是让 AI 一次性靠超长上下文写完整部小说，而是让 AI 像一个小型创作生产组一样工作：先规划，再分章写作，再持续更新人物、关系、时间线、情节线和连续性记录，最后做整体验收。
+项目文件是长期记忆；正文存在、字数达到或模型声称完成，都不等于已经验收。
 
-核心原则：不要依赖某个 AI 的隐藏记忆。项目文件才是长期记忆。
+## 快速开始
 
-## 给 AI 的启动指令
-
-无论是新项目还是旧项目，都先让 AI 读取统一入口：
+把仓库交给 AI，并使用下面的指令：
 
 ```text
-请先读取 AI_START_HERE.md。你需要自动判断这是新项目还是已有项目：
-如果是新项目，按我的题材、字数和章节数创建完整小说项目，先给我故事设计；
-等我说“开始”后，再逐章完成正文，并在最后完成校对、质量评估和交付。
-如果是已有项目，检测 PROJECT_ENTRY.md，然后从当前状态接手，直到完成剩余章节和最终 QA。
+请读取 AI_START_HERE.md。
+我要创作一部现实悬疑小说，共 10 章，每章 6000—8000 个汉字，
+全书 60000—80000 个汉字。先完成故事设计、角色分工和前三章的场景任务。
+我确认设计后，再完成前三章的写作、双编辑审读、修订和主控验收，随后停下交接。
 ```
 
-## 新项目使用方式
-
-你可以这样对 AI 说：
+已有项目可以这样继续：
 
 ```text
-读取 AI_START_HERE.md。
-我要写一部中篇小说，现实悬疑题材，10 个章节，每章 6000-8000 字。
-请先构建完整项目文件和故事设计，等我确认后再开始逐章写作。
+读取 AI_START_HERE.md，接手 novels/<项目名>。
+先核对实际正文与任务状态，修复当前批次的未解决问题，再完成下一批 3 章。
+沿用已确认的创作合同，批次验收后汇报并停止。
 ```
 
-AI 应该先创建：
+角色可由不同会话承担；具备且获准使用代理委派时，也可以由主控协调代理。流程本身不自动启动 AI、不提供后台调度，也不额外授予外部操作权限。
 
-```text
-novels/<作品名或 slug>/
+## 五个角色如何配合
+
+| 角色 | 交付 | 权限边界 |
+| --- | --- | --- |
+| 主控编辑 `supervisor` | 任务拆解、分配、冲突裁决、验收和交接 | 唯一负责合并正式状态与验收记录 |
+| 故事策划 `planner` | 全书结构、人物弧线、章节卡、场景预算 | 提议设定变更，由主控合入 |
+| 正文作者 `writer` | 当前任务的正文、偏离计划说明、状态变更建议 | 不验收自己的正文 |
+| 连续性编辑 `continuity_editor` | 时间、知识、物件、动机与因果检查 | 问题必须定位到正文，修后复查 |
+| 文学编辑 `literary_editor` | 可读性、声音、情感、节奏和重复检查 | 同时承担冷读和文字编辑视角 |
+
+执行顺序：任务与场景设计 → 写作 → 字数和重复检查 → 两类编辑审读 → 修订 → 复查 → 主控验收并回写状态。依赖前文的章节顺序写；获准委派时，两类审读可以并行。详见[协作协议](skills/longform-fiction-studio/references/collaboration-protocol.md)。
+
+## 项目文件与工具
+
+新作品默认放在 `novels/<项目名>/`，该目录由 `.gitignore` 排除，避免私人正文误入技能仓库。`examples/` 是公开的流程示例，不能作为未核实作品已经验收的依据。
+
+每个项目保留人物、关系、时间线、情节线、连续性和风格 Markdown 文件，并新增 `workflow.json` 作为创作合同、任务、角色、审读、问题与验收的结构化台账。详见[项目模板](skills/longform-fiction-studio/references/project-template.md)和[字段规范](skills/longform-fiction-studio/references/workflow-schema.md)。
+
+所有脚本只使用 Python 标准库，在仓库根目录运行：
+
+```bash
+# 只读检查旧项目：真实字数、正文哈希和重复情况
+python3 -B skills/longform-fiction-studio/scripts/inspect_project.py novels/<项目名> --json
+
+# 创建 workflow.json 和任务；不覆盖正文、不补造审读或验收记录
+python3 -B skills/longform-fiction-studio/scripts/init_workflow.py novels/<项目名> --chapters 10 --chapter-min 6000 --chapter-max 8000 --total-min 60000 --total-max 80000 --count-mode han
+
+# 检查当前批次：尚未完成后续章节不等于交付失败
+python3 -B skills/longform-fiction-studio/scripts/validate_project.py novels/<项目名> --stage progress
+
+# 全书交付检查
+python3 -B skills/longform-fiction-studio/scripts/validate_project.py novels/<项目名> --stage release --json
 ```
 
-然后填充项目控制文件、章节卡和入口文件。你修改完故事设计后，说“开始”，AI 就应该逐章写作，并在每章或每批章节后更新状态。
+初始化后，由主控按实际参与者分配角色并填充任务；初始化本身不表示可以开始写作。`han` 统计正文汉字，`nonspace` 统计正文非空白字符并含标点。两种口径都排除 Markdown 标题；开始前锁定口径、单章范围与总量，不能在不达标时悄悄切换。
 
-## 旧项目接手方式
+## 验收要求
 
-如果另一个 AI 已经写到一半，你可以这样说：
+- 场景任务说明进入状态、冲突、选择、后果、预算和完成条件；不足字数通过补全场景扩写。
+- 检查章内及跨章重复，禁止复制段落填充字数。
+- 审读记录绑定实际正文版本；改稿后重新审读，不能沿用过期通过结论。
+- 作者提出修复，编辑复查，主控验收；高严重度和致命问题不能靠延期绕过。
+- 主控回写连续性、时间线、人物关系、当前状态和下一任务，之后才能写依赖这些状态的章节。
+- 每批次总结文学质量；全书交付还需要两类编辑对全书当前版本的最终审读和发布校验。
 
-```text
-读取 AI_START_HERE.md。
-这是已有项目：novels/<项目名>。
-请检测 PROJECT_ENTRY.md，并根据项目当前状态继续完成剩余章节，最后做整体验收和交付。
+程序能检查可执行约束与记录一致性，不能证明审稿人真的读过正文，也不能保证文学感染力。主控需核对审读证据、场景因果和修复效果，质量报告应区分程序结果与编辑判断。
+
+## 回归验证
+
+无需安装第三方包，建议 Python 3.10 或更新版本：
+
+```bash
+python3 -B -m unittest discover -s verification -v
 ```
 
-如果项目里有 `PROJECT_ENTRY.md`，AI 会知道这是旧项目，并按入口文件接手。
+测试使用临时三章项目验证阶段交接、修订复查、审稿版本失效、角色接手、字数与重复反例。测试记录为合成数据，不代表真实文学审稿。[历史示例说明](examples/README.md)解释旧作品与新版验收的区别。
 
-如果没有 `PROJECT_ENTRY.md`，但已经有 `00-project-overview.md`、`chapters/`、`chapter-cards/` 等文件，AI 应该先补入口文件，再继续。
-
-## 仓库结构
-
-```text
-AI_START_HERE.md
-README.md
-skills/
-  longform-fiction-studio/
-    SKILL.md
-    references/
-```
-
-生成的小说项目默认放在：
-
-```text
-novels/
-```
-
-`novels/` 默认被 `.gitignore` 忽略，避免把正文草稿和测试作品误提交到技能包仓库。
-
-## 使用方式
-
-clone 仓库后，可以直接让 AI 读取：
-
-```text
-AI_START_HERE.md
-```
-
-AI 会根据入口文件创建 `novels/<项目名>/` 以及所有 Markdown 控制文件和目录。
-
-项目验收按 `AI_START_HERE.md` 和 `SKILL.md` 里的清单检查。
-
-## 这套流程会强制维护什么
-
-- 统一启动入口：`AI_START_HERE.md`
-- 每个小说项目自己的入口：`PROJECT_ENTRY.md`
-- 项目概览：`00-project-overview.md`
-- 人物设定表：`01-cast-bible.md`
-- 人物关系图谱：`02-relationship-map.md`
-- 时间线：`03-timeline.md`
-- 主线和支线：`04-plot-lines.md`
-- 章节路线图：`05-chapter-roadmap.md`
-- 连续性账本：`06-continuity-ledger.md`
-- 风格与叙事声音：`07-style-and-voice.md`
-- 当前状态与情节线热度：`08-active-state.md`
-- 批次文学修订：`09-literary-revision.md`
-- 每章任务卡：`chapter-cards/`
-- 正文目录：`chapters/`
-- 最终质量报告：`QUALITY_REPORT.md`
-- 叙事边界检查：防止正文出现作者说明、读者称呼、控制卡术语或写作意图说明
-
-## 工作标准
-
-一个小说项目不是“有正文”就算完成。它至少要满足：
-
-- 所有计划章节都存在
-- 字数符合用户要求
-- 人物关系、时间线和情节线没有明显断裂
-- 关键事实有证据状态：`observed`、`claimed`、`inferred`、`confirmed`、`contradicted`
-- 支线没有无计划冷掉
-- 每 3-6 章做一次文学修订检查
-- 正文没有突破第四面墙
-- 完成最终质量报告
-- 手动验收清单通过
-
-## 重要规则
-
-不要让 AI 靠隐藏记忆继续写。每次新 AI 接手时，都先读：
-
-```text
-AI_START_HERE.md
-```
-
-然后由它自动判断是新项目还是旧项目。旧项目再读取对应的：
-
-```text
-PROJECT_ENTRY.md
-```
+仓库附带 [GitHub Actions 配置模板](verification/github-actions.example.yml)，目前尚未启用自动测试。拥有 workflow 写入权限的维护者可将它复制为 `.github/workflows/validate.yml` 后提交，启用 Python 3.10 / 3.13 的推送及 PR 检查。当前上传凭据缺少该权限，所以模板按普通文件交付。

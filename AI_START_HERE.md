@@ -1,223 +1,66 @@
 # AI Start Here
 
-This is the single startup entry file for this Novel Creator repository.
+This is the repository startup entry. Read the local [skill](skills/longform-fiction-studio/SKILL.md), then the target project's `PROJECT_ENTRY.md` when present. Project files are durable memory; do not resume from hidden recollection or a previous completion claim.
 
-If you are a new AI taking over this workspace or a novel project inside it, read this file first. Do not ask the user whether this is a new or old project until you have checked the target path.
+## Detect The Project
 
-## Core Principle
+- If the user provides a path, inspect it first. An entry file or existing control files/chapters means an existing project.
+- If continuing without a path, select a project under `novels/` only when unambiguous; otherwise ask which project.
+- For a new novel, create `novels/<title-or-slug>/` using the [project template](skills/longform-fiction-studio/references/project-template.md).
+- For an incomplete old project, preserve the manuscript, inspect it, and add missing control files within the requested scope. Missing workflow records are unverified, not implicitly approved.
 
-Novel creation in this workspace must not depend on one AI's hidden memory. The durable memory is stored in project files.
+## Set The Scope
 
-Use the local skill package:
+Extract the requested genre, creative constraints, chapter count, chapter and total length ranges, counting mode, review preference, and batch stop point. Use prior authorization; do not ask again for an already approved design or scope. Resolve ordinary creative details yourself unless the user reserved those decisions.
 
-- `skills/longform-fiction-studio/SKILL.md`
-- `skills/longform-fiction-studio/references/methodology.md`
-- `skills/longform-fiction-studio/references/project-template.md`
-- `skills/longform-fiction-studio/references/project-entry-template.md`
+Default to staged collaboration. If no batch size was specified, plan a small batch, normally three chapters, and state that assumption. Stop at the requested design review or batch boundary. Do not turn “continue” into an instruction to write the whole book. Resume an unfinished repair or review before starting new dependent prose.
 
-## First Decision: New Project Or Existing Project
+## New Project
 
-Always start with this decision.
+1. Read the [collaboration protocol](skills/longform-fiction-studio/references/collaboration-protocol.md) and [workflow schema](skills/longform-fiction-studio/references/workflow-schema.md).
+2. Create the Markdown control pack. Lock user requirements and count convention in the overview and `workflow.json`; keep their descriptions aligned.
+3. Initialize the task scaffold with `init_workflow.py`, supplying chapter count, chapter/total ranges and `han` or `nonspace`. The initializer does not assign actual actors, write fiction, or approve anything.
+4. The supervisor assigns real actors and task ownership. Prepare the whole-book direction, then scene-level cards for the current batch; future cards may remain provisional.
+5. Present the design if requested. Honor that review boundary; otherwise proceed within the authorized batch.
 
-### If The User Gives A Project Path
+## Continue An Existing Project
 
-Check whether the target path contains:
+1. Read `PROJECT_ENTRY.md`, `workflow.json` if present, current active state, unresolved issues and relevant chapter cards.
+2. Run `inspect_project.py` to compare actual prose, counts, hashes and repetition against claims. A legacy `QUALITY_REPORT.md` is evidence to verify, not a substitute for current reviews.
+3. If `workflow.json` is absent, initialize it non-destructively using the known contract. If the contract is materially ambiguous, resolve it before accepting prose. Do not infer completed task states or reviews from file existence.
+4. Reconcile stale records and assign the next ready task. Preserve drafts and user changes; migration does not rewrite the novel.
+5. Continue through the current batch's repair, review and acceptance work. Record a precise handoff at its boundary.
 
-`PROJECT_ENTRY.md`
+## Chapter Loop
 
-If it exists, this is an existing novel project. Follow **Path B: Continue An Existing Novel Project**.
+Follow the role and ownership rules in the collaboration protocol:
 
-If it does not exist but the path contains novel-like control files such as `00-project-overview.md`, `chapters/`, or `chapter-cards/`, treat it as an incomplete project and repair it by creating `PROJECT_ENTRY.md` before continuing.
+1. Planner supplies a chapter card with scene goals, conflicts, choices, consequences, entry/exit state, constraints and length budgets.
+2. Supervisor checks dependencies, scope and readiness, then assigns drafting.
+3. Writer changes only the assigned prose and submits state-change proposals.
+4. Run mechanical inspection and progress validation. Repair length or repetition failures before asking editors to accept the draft.
+5. Continuity and literary editors read the actual version, independently of the author's self-assessment, and return located evidence and actionable findings.
+6. Writer repairs; editors re-read the affected context and record fresh reviews. Recheck downstream chapters when earlier events change.
+7. Supervisor verifies evidence and merges canonical state, then records acceptance. Accepted prose requires both fresh role reviews; authors cannot accept their own work.
 
-If the path does not exist or has no novel project files, follow **Path A: Start A New Novel Project**.
+Draft dependent chapters sequentially. Parallel review is useful only if the environment supports it and delegation is authorized. Role descriptions alone do not grant tool or communication permissions.
 
-### If The User Does Not Give A Project Path
+## Batch Handoff
 
-If the user asks for a new novel, create a new project under:
+After each batch, update `09-literary-revision.md` with scene thickness, interior motion, convenience risks, rhythm, repetition and required repairs. The supervisor updates the entry and active state with accepted chapters, unfinished tasks, blockers, next action and stop point. Distinguish “drafted,” “reviewed” and “accepted.” A successful progress check does not mean the book is complete.
 
-`novels/<title-or-slug>/`
+## Release Acceptance Checklist
 
-If the user asks to continue "this project" or "the current novel", inspect likely project directories under `novels/` and choose the one with `PROJECT_ENTRY.md` only when unambiguous. If ambiguous, ask a short clarification.
+Use the [revision protocol](skills/longform-fiction-studio/references/revision-protocol.md) only when full delivery is in scope:
 
-All relative paths in this file are relative to the repository root.
+- All planned chapters and chapter cards exist and have substantive content.
+- Every chapter and the book total satisfy the locked count convention and ranges.
+- Mechanical checks pass, including repetition and narrative-boundary checks.
+- All accepted chapters have two fresh role reviews and supervisor acceptance bound to current prose.
+- Critical/high issues are resolved and independently rechecked, including affected later chapters.
+- Canonical state reflects accepted prose; no unplanned cold plotline or outstanding required payoff remains.
+- Both editors have reviewed the current complete book, including opening/ending promise, cumulative pacing and cross-chapter continuity.
+- `QUALITY_REPORT.md` reports actual counts, validation output, review evidence and remaining limitations.
+- Run `python3 -B skills/longform-fiction-studio/scripts/validate_project.py <project-root> --stage release` and require success before reporting release completion.
 
-## Path A: Start A New Novel Project
-
-Use this path only after the first decision confirms there is no existing project to continue.
-
-### 1. Understand The User Request
-
-Extract and confirm:
-
-- target form: medium-length novel, long novel, serial, novella, etc.
-- total target length or per-chapter length
-- chapter count
-- genre and subject matter
-- required tone, audience, taboo boundaries, and any must-have elements
-- whether the user wants to approve the story design before drafting
-
-If the user has already provided enough information, do not over-ask. Make reasonable creative choices and proceed.
-
-### 2. Create The Project
-
-Create a project under this workspace, usually:
-
-`novels/<title-or-slug>/`
-
-Create the directory and all required Markdown files from the project template. If file tools are available, create them in place. If file tools are not available, provide the exact file tree and file contents for the user or host AI to create.
-
-Do not create novel projects in the user's home directory.
-
-### 3. Build The Control Pack Before Drafting
-
-Fill these files before writing chapters:
-
-- `PROJECT_ENTRY.md`
-- `00-project-overview.md`
-- `01-cast-bible.md`
-- `02-relationship-map.md`
-- `03-timeline.md`
-- `04-plot-lines.md`
-- `05-chapter-roadmap.md`
-- `06-continuity-ledger.md`
-- `07-style-and-voice.md`
-- `08-active-state.md`
-- `09-literary-revision.md`
-- `chapter-cards/NN-card.md` for every planned chapter
-
-The control pack must make the story creatable with low context. Do not rely on hidden planning that is not written into files.
-
-Every chapter card must include a `Narrative Boundary` section that keeps planning language out of the manuscript. The chapter body in `chapters/` must only use in-world fiction language.
-
-### 4. Present The Story Design To The User
-
-Before drafting the manuscript, summarize:
-
-- title and premise
-- genre and target effect
-- main characters
-- relationship web
-- main line and side lines
-- chapter roadmap
-- ending direction
-- risks or open design choices
-
-Wait for user feedback if the user wants to review the design before drafting.
-
-### 5. When The User Says Start
-
-Draft chapter by chapter. For each chapter:
-
-1. Read `PROJECT_ENTRY.md`.
-2. Read the project pack needed for the current chapter.
-3. Read the current `chapter-cards/NN-card.md`.
-4. Draft only the current chapter into `chapters/NN.md`.
-5. Check the draft for narrative-boundary violations before accepting it.
-6. Update `06-continuity-ledger.md`.
-7. Update `08-active-state.md`.
-8. Update `03-timeline.md` and `02-relationship-map.md` if facts, time, knowledge, or relationships changed.
-9. After every 3-6 chapters, update `09-literary-revision.md`.
-10. Continue until the planned manuscript is complete, unless the user asks to pause.
-
-### 6. Final QA And Delivery
-
-After all planned chapters are complete:
-
-- run the manual acceptance checklist in this file
-- verify chapter count
-- verify chapter lengths or total length against the user's requirement
-- check continuity, timeline, character knowledge, relationship changes, line heat, payoff fairness, and style consistency
-- check narrative boundary: no author notes, reader address, control-card terms, evidence labels, line-heat labels, or explanation of writing intent inside `chapters/`
-- write or update `QUALITY_REPORT.md`
-- clean temporary files and caches
-- report final paths, validation result, length statistics, and quality verdict
-
-## Path B: Continue An Existing Novel Project
-
-Use this path when the target project contains `PROJECT_ENTRY.md`, or when an incomplete project is repaired by adding `PROJECT_ENTRY.md`.
-
-### 1. Read The Project Entry First
-
-Open the target project's entry file:
-
-`<project-root>/PROJECT_ENTRY.md`
-
-Do not draft before reading it.
-
-### 2. Follow Its Read Order
-
-Then read the files listed in that project's `PROJECT_ENTRY.md`, usually:
-
-1. `00-project-overview.md`
-2. `08-active-state.md`
-3. `06-continuity-ledger.md`
-4. `04-plot-lines.md`
-5. `05-chapter-roadmap.md`
-6. `01-cast-bible.md`
-7. `02-relationship-map.md`
-8. `03-timeline.md`
-9. `07-style-and-voice.md`
-10. current or next `chapter-cards/NN-card.md`
-11. only the recent completed chapters needed for continuity
-
-### 3. Determine The Next Action
-
-Use `PROJECT_ENTRY.md` and `08-active-state.md` to determine whether the next action is:
-
-- draft the next chapter
-- revise an existing chapter
-- rebuild a missing chapter card
-- repair continuity
-- run final QA
-- deliver the finished manuscript
-
-### 4. Continue Automatically When Asked
-
-If the user says to continue or start, keep working chapter by chapter until the planned stop point or full manuscript completion. After each chapter or batch, update the control files. Do not make the user restate the whole story.
-
-### 5. Final Delivery
-
-When the remaining work is complete, run the manual acceptance checklist and produce a final quality report the same way as a new project.
-
-## Required Project Files
-
-Every novel project should contain:
-
-- `PROJECT_ENTRY.md`
-- `00-project-overview.md`
-- `01-cast-bible.md`
-- `02-relationship-map.md`
-- `03-timeline.md`
-- `04-plot-lines.md`
-- `05-chapter-roadmap.md`
-- `06-continuity-ledger.md`
-- `07-style-and-voice.md`
-- `08-active-state.md`
-- `09-literary-revision.md`
-- `chapters/`
-- `chapter-cards/`
-
-## Acceptance Standard
-
-A project is not complete just because chapters exist. It is complete only when:
-
-- all planned chapters exist
-- chapter lengths match the user's requested range or scale
-- continuity files are updated
-- line heat has no unplanned cold lines
-- evidence status is clear where facts are disputed
-- batch literary revision has been run
-- literary revision includes narrative-boundary notes
-- final quality report exists
-- narrative boundary check passes for all chapter files
-- the manual acceptance checklist in this file passes
-
-## User-Facing Shortcut
-
-For a new project, the user can say:
-
-> Read `AI_START_HERE.md`, then create or continue the appropriate novel project. If it is new, use this topic, length, and chapter count. Show me the story design first. When I say start, draft the whole manuscript chapter by chapter and deliver it after QA.
-
-For an existing project, the user can say:
-
-> Read `AI_START_HERE.md`, use the project path I provide, detect whether `PROJECT_ENTRY.md` exists, then continue from the current state until the manuscript is complete and QA'd.
+Tools check records and deterministic constraints. Editors must still assess the manuscript; literary quality is not certified by an exit code.

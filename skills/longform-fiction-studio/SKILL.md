@@ -1,174 +1,48 @@
 ---
 name: longform-fiction-studio
-description: Design, plan, draft, and revise long-form fiction projects with many characters, multiple plotlines, continuity tracking, chapter sequencing, and low-context continuation. Use when creating or repairing a novel workflow, character bible, relationship map, timeline, chapter roadmap, or chapter draft that must stay coherent across a large manuscript.
+description: Plan, draft, review, and revise long-form fiction through supervisor, planner, writer, continuity-editor, and literary-editor roles with scene tasks, versioned reviews, and durable continuity. Use for creating or continuing novels, repairing a novel workflow, and managing chapter or batch handoffs.
 ---
 
 # Longform Fiction Studio
 
-## Overview
+Use project files as durable memory. Separate story invention, prose production, independent review and acceptance. Work to the user's chapter or batch boundary; whole-book completion is not the default.
 
-Use this skill to run a long novel like a production system: separate story invention, continuity control, chapter planning, and drafting. Keep the AI creative, but force every chapter to obey project truth, cast truth, timeline truth, and line-tracking truth.
+Read workspace `AI_START_HERE.md` when available, then the selected project's `PROJECT_ENTRY.md`. Inspect existing files before deciding a project is new. Preserve existing prose and user changes when adding the collaboration workflow.
 
-The model should not rely on a giant prompt. Instead, load only the current project pack and the current chapter card, then update shared state after each step.
+## Roles And Ownership
 
-If available in a workspace, read the unified startup entry first, usually `AI_START_HERE.md`. It explains how to detect whether the target is a new project or an existing project. If the target contains `PROJECT_ENTRY.md`, treat it as an existing project and follow that file's handoff rules. If no project entry exists, create or repair the project before drafting.
+The five roles are `supervisor`, `planner`, `writer`, `continuity_editor` and `literary_editor`. The supervisor owns task assignment, canonical-state merges and acceptance. Planner and writer propose changes; editors provide evidence and rechecks. Authors must not review or accept their own deliverables. Use actual actor identities, not five labels that disguise one self-approval.
 
-## Core Model
+Read [collaboration-protocol.md](references/collaboration-protocol.md) when assigning or performing roles, and [workflow-schema.md](references/workflow-schema.md) before editing `workflow.json`. Separate sessions can fulfill roles; use parallel agents only when delegation is available and authorized. This skill does not create a background runner or imply permission to message external parties.
 
-Treat the work as four roles:
+## Essential Workflow
 
-1. Story lead: decides the main direction, ending pressure, and thematic cost.
-2. Continuity supervisor: checks names, dates, relationships, geography, props, and previous commitments.
-3. Line producer: keeps main line, side lines, and chapter load balanced.
-4. Drafting writer: turns the current plan into prose without expanding beyond the active brief.
+1. Lock the creative requirements, chapter count, total/chapter length ranges and count mode. Honor user design review and batch stop points; do not re-request settled decisions.
+2. Build compact Markdown controls from [project-template.md](references/project-template.md). Initialize `workflow.json` non-destructively with `scripts/init_workflow.py`; explicitly assign actors and complete the task scaffold.
+3. Planner decomposes the next chapter into scenes with entry state, goal, resistance, choice, consequence, exit state and length budget. Supervisor checks readiness.
+4. Writer drafts only the assigned chapter and proposes state changes. Dependent chapters are written sequentially.
+5. Run `scripts/inspect_project.py` and `scripts/validate_project.py --stage progress` against the project root. Repair mechanical failures and verify counts under the fixed convention.
+6. Both editors read the submitted version and record located evidence. Writer repairs; editors recheck the new version. Critical/high findings cannot be deferred past acceptance.
+7. Supervisor checks reviews and repair evidence, merges continuity/active-state changes, and accepts the chapter. Do not draft dependent prose against stale state.
+8. At the agreed batch boundary, summarize literary findings and hand off. Whole-book delivery additionally requires fresh two-role book reviews and `--stage release` validation under [revision-protocol.md](references/revision-protocol.md).
 
-Do not merge these roles into one undifferentiated outline. Separate them in the project files.
+## Invariants
 
-## Required Project Files
+- A file's existence, an old quality report or a passing progress check is not acceptance.
+- Reviews and acceptance must refer to the current manuscript hash. Any prose edit invalidates prior approval for that version; substantive changes also trigger downstream review.
+- Count body text using the contract's `han` or `nonspace` mode. Do not switch modes or lower targets to conceal shortfall. Add missing conflict, response or consequence rather than repeated filler.
+- Track disputed facts as `observed`, `claimed`, `inferred`, `confirmed` or `contradicted`; keep labels in controls, not fiction.
+- Track plotline last appearance, present pressure and next return. Repair an unplanned cold line before advancing affected tasks.
+- Translate plans into in-world action, dialogue, perception and consequence. Flag process commentary or control-language leaks, while judging naturally occurring words in context.
+- Never alter established story truth merely to make a contradiction disappear. The supervisor must reconcile a proposed change and its downstream effects.
+- Mechanical validation checks records and deterministic constraints; it cannot prove review authenticity or literary merit. Reviewers must read actual prose and cite real evidence.
 
-Create and maintain these files for every novel project:
+## Focused References
 
-- `PROJECT_ENTRY.md`
-- `00-project-overview.md`
-- `01-cast-bible.md`
-- `02-relationship-map.md`
-- `03-timeline.md`
-- `04-plot-lines.md`
-- `05-chapter-roadmap.md`
-- `06-continuity-ledger.md`
-- `07-style-and-voice.md`
-- `08-active-state.md`
-- `09-literary-revision.md`
-- `chapters/`
-- `chapter-cards/`
-
-Use these files as the canonical source of truth.
-
-`PROJECT_ENTRY.md` is the handoff and startup file. A new AI should read it first to learn the read order, current progress, next intended task, and which project files must be updated after drafting. It should not contain the whole novel; it should point to the right control files and summarize the active handoff state.
-
-## Hard Operating Rules
-
-- After every chapter or chapter batch, update `06-continuity-ledger.md` and `08-active-state.md` before drafting more text.
-- Treat state writeback as part of acceptance, not cleanup.
-- Do not advance to the next chapter if the active state still describes the pre-chapter state.
-- Track evidence status explicitly when a fact matters: `observed`, `claimed`, `inferred`, `confirmed`, or `contradicted`.
-- Track line heat in `08-active-state.md` for active plot lines: last appeared, current pressure, and next required return.
-- If a side line has gone cold without a return plan, stop and restore it in the roadmap before continuing.
-- After every 3-6 chapters, run a literary revision gate before drafting the next batch.
-- Do not treat logical coherence as finished literary quality. Check scene thickness, inner arc, anti-convenience, rhythm, and lived texture.
-- Keep narrative levels separate. Control files may use planning language, but chapter manuscripts must not mention the author, reader, chapter purpose, plot line, theme, evidence label, continuity ledger, line heat, chapter card, or future payoff.
-
-## Workflow
-
-### 1. Align the project
-
-Before drafting, lock:
-
-- genre and target effect
-- main promise
-- ending direction
-- protagonist pressure
-- cast size and relation density
-- main line and side lines
-
-If these are not clear, ask for them first.
-
-### 2. Build the control pack
-
-Fill the project files with compact, reusable truth:
-
-- `00-project-overview.md`: premise, scope, rules, target length
-- `01-cast-bible.md`: stable character facts, speech traits, motives, secrets, arcs
-- `02-relationship-map.md`: ties, tensions, debts, alliances, contradictions
-- `03-timeline.md`: chronological events, ages, travel, public events, causality
-- `04-plot-lines.md`: main line, side lines, turning points, convergence points
-- `05-chapter-roadmap.md`: chapter purpose, load, POV, payoff, cliff or hinge
-- `06-continuity-ledger.md`: constraints, open loops, callbacks, unresolved promises
-- `07-style-and-voice.md`: diction, sentence rhythm, POV distance, banned habits
-- `08-active-state.md`: what is currently true, what was just changed, what must be remembered next
-- `09-literary-revision.md`: batch-level quality findings, revision tasks, and prose-level risks
-- `PROJECT_ENTRY.md`: first-read handoff file, read order, current progress, next task, forbidden drift, and post-draft update checklist
-
-Keep entries short and factual. Prefer tables or bullet lists over essays.
-
-### 3. Draft by chapter
-
-For each chapter:
-
-- read only the current project pack and the current chapter card
-- choose one dominant purpose for the chapter
-- keep all subplots subordinate to that purpose
-- draft only what the current state supports
-- translate control intent into scene, action, dialogue, object, silence, and perception
-- reject manuscript text that leaks control language or addresses the reader
-- update continuity and active state immediately after the chapter
-
-Do not draft a chapter from memory alone.
-
-### 4. Validate before release
-
-Check the draft against:
-
-- character consistency
-- timeline consistency
-- relationship consistency
-- payoff fairness
-- line balance
-- style consistency
-- chapter purpose
-- narrative boundary: no fourth-wall break, author note, reader address, control-file label, or writing-intent explanation inside the manuscript
-
-If any check fails, repair the project files first, then rewrite.
-
-### 5. Run batch literary revision
-
-After every 3-6 chapters, update `09-literary-revision.md` with:
-
-- whether the batch feels like scenes, not task completion
-- where evidence appears too conveniently
-- where characters need more interior motion
-- where life texture is too thin
-- where chapter length or rhythm feels compressed
-- which scenes need expansion, delay, misdirection, or quieter aftermath
-
-Do not continue the next batch until the high-priority revision tasks are either applied or consciously deferred.
-
-## Low-Context Operating Rule
-
-To save tokens, keep two layers of memory:
-
-- persistent project files for stable truth
-- one short active brief for the current chapter
-
-The active brief should usually contain:
-
-- chapter number
-- chapter goal
-- current POV
-- required callbacks
-- forbidden drift
-- expected end condition
-- evidence status for disputed facts
-- active line heat for dominant and secondary lines
-
-Do not carry the whole novel into each prompt.
-
-## Typical Uses
-
-- start a new multi-character novel
-- build a character bible and relationship graph
-- convert a vague idea into a chapter-by-chapter plan
-- continue a serialized novel with limited context
-- repair continuity drift or dropped plotlines
-- split a large novel into controllable chapters and arcs
-
-## Helpful References
-
-- `references/methodology.md`: fiction production method and validation rules
-- `references/project-template.md`: compact file layout for a new novel project
-- `references/project-entry-template.md`: handoff file layout for one project
-- `references/workspace-entry-template.md`: workspace-level startup rules for new and existing projects
-
-## Project Creation
-
-A new AI should create the project folders and Markdown control files from `AI_START_HERE.md` and `references/project-template.md`, then validate the work with the acceptance checklist in `AI_START_HERE.md` and the validation questions in `references/methodology.md`.
+- [methodology.md](references/methodology.md): story design, chapter-card structure, continuity and literary diagnostics.
+- [collaboration-protocol.md](references/collaboration-protocol.md): role inputs, outputs, handoff and supervision.
+- [workflow-schema.md](references/workflow-schema.md): authoritative machine-readable fields and state rules.
+- [project-template.md](references/project-template.md): project file layout and control-pack content.
+- [project-entry-template.md](references/project-entry-template.md): low-context project handoff.
+- [workspace-entry-template.md](references/workspace-entry-template.md): workspace startup routing.
+- [revision-protocol.md](references/revision-protocol.md): repairs, independent rechecks and full release.

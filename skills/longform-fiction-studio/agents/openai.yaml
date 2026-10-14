@@ -1,4 +1,4 @@
 interface:
   display_name: "Longform Fiction Studio"
-  short_description: "Plan and control long-form fiction projects"
-  default_prompt: "Use $longform-fiction-studio to plan and draft a multi-character long-form novel with continuity control."
+  short_description: "Coordinate novel planning, drafting, and editorial review"
+  default_prompt: "Use $longform-fiction-studio to coordinate a staged novel project with scene tasks, separate editorial reviews, and supervised acceptance."
